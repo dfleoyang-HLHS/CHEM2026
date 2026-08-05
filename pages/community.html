@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI家教與社群問答 | ChemPlatform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<script>window.CHEM_ROOT = "../"; window.CHEM_PAGE = "community";</script>
+
+<header id="site-header"></header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">首頁</a> / AI家教與社群問答</div>
+    <h1>🤖 AI 家教與社群問答</h1>
+    <p>輸入化學式或描述你的問題，AI 化學助教會用引導式提問幫助你自己想通觀念；也歡迎到討論區與同學、教師互相交流。</p>
+  </div>
+</div>
+
+<main class="container section">
+  <div class="tab-bar" id="community-tabs">
+    <button class="tab-btn active" data-panel="ai">🤖 AI 化學解題助手</button>
+    <button class="tab-btn" data-panel="board">💬 討論區 / 許願池</button>
+  </div>
+
+  <div id="ai-panel">
+    <div class="lab-grid" style="grid-template-columns: 1fr 320px;">
+      <div>
+        <div class="chat-window">
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-input" placeholder="輸入你的化學問題，例如：為什麼水的沸點比硫化氫高？" />
+            <button class="btn btn-primary" id="chat-send">送出</button>
+          </div>
+        </div>
+        <p class="chat-disclaimer">⚠️ 這是一個以關鍵字比對課綱觀念的示範版引導助教，用於展示「引導思考而非直接給答案」的教學設計。正式上線版本可串接大型語言模型 API，並支援拍照上傳題目辨識。</p>
+      </div>
+      <div>
+        <div class="lab-panel" style="margin-bottom:0;">
+          <h2 style="font-size:1rem;">💡 使用建議</h2>
+          <ul class="key-points">
+            <li>直接輸入化學式（如 NH3、CO2）可取得該分子的觀念提示</li>
+            <li>輸入觀念關鍵字（如「勒沙特列」「pH」「氧化數」）可取得引導式提問</li>
+            <li>AI 助教會先給提示與思考方向，而非直接公布答案</li>
+            <li>若想看完整觀念說明，可點選訊息中提供的學習地圖連結</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="board-panel" style="display:none;">
+    <div class="lab-grid" style="grid-template-columns: 1fr 320px;">
+      <div>
+        <div id="board-list"></div>
+      </div>
+      <div>
+        <div class="lab-panel" style="margin-bottom:0;">
+          <h2 style="font-size:1rem;">✏️ 發表新提問</h2>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="board-name">暱稱</label>
+              <input type="text" id="board-name" placeholder="例如：高二忠_小明" />
+            </div>
+            <div class="form-field">
+              <label for="board-tag">單元標籤</label>
+              <select id="board-tag"></select>
+            </div>
+            <div class="form-field">
+              <label for="board-title">問題標題</label>
+              <input type="text" id="board-title" placeholder="簡短描述你的問題" />
+            </div>
+            <div class="form-field">
+              <label for="board-content">內容</label>
+              <textarea id="board-content" placeholder="詳細描述你卡住的地方..."></textarea>
+            </div>
+            <button class="btn btn-primary" id="board-submit">發布提問</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../js/curriculum-data.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/community.js"></script>
+</body>
+</html>

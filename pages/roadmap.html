@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>學習地圖 | ChemPlatform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<script>window.CHEM_ROOT = "../"; window.CHEM_PAGE = "roadmap";</script>
+
+<header id="site-header"></header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">首頁</a> / 學習地圖</div>
+    <h1>🗺️ 學習地圖區</h1>
+    <p>依 108 課綱拆解必修化學與選修化學 I–V 各單元觀念，點擊單元展開觀念小卡；也可直接輸入關鍵字（如「勒沙特列」、「軌域」）快速定位。</p>
+  </div>
+</div>
+
+<main class="container section">
+  <div class="filter-bar">
+    <input type="text" id="search-input" placeholder="🔍 搜尋關鍵字，例如：VSEPR、pH、氧化數..." />
+    <span id="result-count" style="font-size:0.85rem;color:var(--color-text-muted);"></span>
+  </div>
+
+  <div class="tab-bar" id="subject-tabs"></div>
+
+  <div id="roadmap-content"></div>
+  <div id="empty-state" class="empty-state" style="display:none;">找不到符合的觀念，試試其他關鍵字。</div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../js/curriculum-data.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  let activeSubject = params.get("subject") || "all";
+  let query = (params.get("q") || "").trim();
+
+  const subjectOrder = ["required", "elective1", "elective2", "elective3", "elective4", "elective5"];
+
+  function renderTabs() {
+    const tabBar = document.getElementById("subject-tabs");
+    const tabs = [{ key: "all", title: "全部" }].concat(
+      subjectOrder.map((k) => ({ key: k, title: CURRICULUM[k].tag }))
+    );
+    tabBar.innerHTML = tabs
+      .map(
+        (t) =>
+          `<button class="tab-btn ${t.key === activeSubject ? "active" : ""}" data-key="${t.key}">${t.title}</button>`
+      )
+      .join("");
+    tabBar.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeSubject = btn.dataset.key;
+        renderTabs();
+        renderContent();
+      });
+    });
+  }
+
+  function matchesQuery(topic, q) {
+    if (!q) return true;
+    const hay = (
+      topic.title +
+      " " +
+      topic.summary +
+      " " +
+      topic.keyPoints.join(" ") +
+      " " +
+      (topic.keywords || []).join(" ")
+    ).toLowerCase();
+    return hay.includes(q.toLowerCase());
+  }
+
+  function renderContent() {
+    const container = document.getElementById("roadmap-content");
+    container.innerHTML = "";
+    let totalShown = 0;
+    let totalTopics = 0;
+
+    const subjectsToShow = activeSubject === "all" ? subjectOrder : [activeSubject];
+
+    subjectsToShow.forEach((subjectKey) => {
+      const subject = CURRICULUM[subjectKey];
+      subject.units.forEach((unit) => {
+        totalTopics += unit.topics.length;
+        const matchedTopics = unit.topics.filter((t) => matchesQuery(t, query));
+        if (matchedTopics.length === 0) return;
+        totalShown += matchedTopics.length;
+
+        const block = document.createElement("div");
+        block.className = "unit-block" + (query ? " open" : "");
+        block.innerHTML = `
+          <div class="unit-header">
+            <div>
+              <span class="chip" style="background:${subject.color}1a;color:${subject.color};border-color:${subject.color}33;">${subject.tag}</span>
+              <h3 style="display:inline;margin-left:8px;">${unit.title}</h3>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span class="unit-meta">${matchedTopics.length} 個觀念主題</span>
+              <span class="unit-toggle-icon">+</span>
+            </div>
+          </div>
+          <div class="unit-body">
+            ${matchedTopics
+              .map(
+                (topic) => `
+              <div class="topic-item" id="${topic.id}">
+                <h4>${topic.title}</h4>
+                <p>${topic.summary}</p>
+                <ul class="key-points">
+                  ${topic.keyPoints.map((k) => `<li>${k}</li>`).join("")}
+                </ul>
+                <div class="topic-tags">
+                  ${(topic.keywords || [])
+                    .slice(0, 6)
+                    .map((k) => `<span class="chip">${k}</span>`)
+                    .join("")}
+                </div>
+                <div style="margin-top:12px;">
+                  <a class="btn btn-outline btn-sm" href="questions.html?topic=${topic.id}">前往相關題目 →</a>
+                </div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+        `;
+        block.querySelector(".unit-header").addEventListener("click", () => {
+          block.classList.toggle("open");
+        });
+        container.appendChild(block);
+      });
+    });
+
+    document.getElementById("empty-state").style.display = totalShown === 0 ? "block" : "none";
+    document.getElementById("result-count").textContent = query
+      ? `找到 ${totalShown} 個相關觀念（共 ${totalTopics} 個）`
+      : "";
+  }
+
+  const searchInput = document.getElementById("search-input");
+  searchInput.value = query;
+  searchInput.addEventListener("input", (e) => {
+    query = e.target.value.trim();
+    renderContent();
+  });
+
+  renderTabs();
+  renderContent();
+
+  if (window.location.hash) {
+    setTimeout(() => {
+      const el = document.querySelector(window.location.hash);
+      if (el) {
+        el.closest(".unit-block")?.classList.add("open");
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+  }
+</script>
+</body>
+</html>

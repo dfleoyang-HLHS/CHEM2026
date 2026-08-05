@@ -1,0 +1,253 @@
+// 題庫互動邏輯：作答、詳解顯示、統計、智慧錯題本（以 localStorage 儲存於本機瀏覽器）
+(function () {
+  const STORAGE_KEY = "chem_quiz_progress_v1";
+
+  function loadProgress() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch {
+      return {};
+    }
+  }
+  function saveProgress(progress) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  }
+
+  let progress = loadProgress();
+  const params = new URLSearchParams(window.location.search);
+  const topicFilter = params.get("topic");
+
+  const state = {
+    subject: "all",
+    difficulty: "all",
+    search: "",
+    mode: "practice",
+  };
+
+  const subjectSelect = document.getElementById("filter-subject");
+  const difficultySelect = document.getElementById("filter-difficulty");
+  const searchInput = document.getElementById("filter-search");
+
+  function populateSubjectFilter() {
+    const opts = ['<option value="all">全部單元</option>'];
+    Object.values(CURRICULUM).forEach((s) => {
+      opts.push(`<option value="${s.key}">${s.title}</option>`);
+    });
+    subjectSelect.innerHTML = opts.join("");
+  }
+
+  function findTopicTitle(topicId) {
+    for (const s of Object.values(CURRICULUM)) {
+      for (const u of s.units) {
+        const t = u.topics.find((x) => x.id === topicId);
+        if (t) return t.title;
+      }
+    }
+    return null;
+  }
+
+  function filteredQuestions() {
+    return QUESTIONS.filter((q) => {
+      if (topicFilter && q.topicId !== topicFilter) return false;
+      if (state.subject !== "all" && q.subjectKey !== state.subject) return false;
+      if (state.difficulty !== "all" && q.difficulty !== state.difficulty) return false;
+      if (state.search) {
+        const hay = (q.question + " " + q.options.join(" ")).toLowerCase();
+        if (!hay.includes(state.search.toLowerCase())) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderStats() {
+    const total = QUESTIONS.length;
+    const answeredIds = Object.keys(progress).filter((id) => progress[id].answered);
+    const correctIds = answeredIds.filter((id) => progress[id].correct);
+    const wrongIds = answeredIds.filter((id) => !progress[id].correct);
+    const accuracy = answeredIds.length ? Math.round((correctIds.length / answeredIds.length) * 100) : 0;
+
+    document.getElementById("stat-bar").innerHTML = `
+      <div class="stat-box"><strong>${total}</strong><span>題庫總題數</span></div>
+      <div class="stat-box"><strong>${answeredIds.length}</strong><span>已作答題數</span></div>
+      <div class="stat-box"><strong>${accuracy}%</strong><span>目前正確率</span></div>
+      <div class="stat-box"><strong>${wrongIds.length}</strong><span>錯題本題數</span></div>
+    `;
+  }
+
+  function renderQuizList() {
+    const list = document.getElementById("quiz-list");
+    const qs = filteredQuestions();
+    if (qs.length === 0) {
+      list.innerHTML = `<div class="empty-state">找不到符合篩選條件的題目。</div>`;
+      return;
+    }
+    list.innerHTML = qs.map((q) => quizCardHTML(q)).join("");
+    qs.forEach((q) => attachQuizHandlers(q));
+  }
+
+  function quizCardHTML(q) {
+    const saved = progress[q.id];
+    const topicTitle = findTopicTitle(q.topicId);
+    return `
+      <div class="quiz-card" id="card-${q.id}">
+        <div class="quiz-meta">
+          <span class="chip diff-${q.difficulty}">${q.difficulty}</span>
+          <span class="chip">${q.unitTitle}</span>
+          ${topicTitle ? `<a href="roadmap.html#${q.topicId}" class="chip" style="text-decoration:none;">🔗 ${topicTitle}</a>` : ""}
+        </div>
+        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-options" data-qid="${q.id}">
+          ${q.options
+            .map(
+              (opt, idx) => `
+            <div class="quiz-option ${saved && saved.selected === idx ? (idx === q.answerIndex ? "correct" : "selected incorrect") : ""}" data-idx="${idx}">
+              ${String.fromCharCode(65 + idx)}. ${opt}
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+        <div class="quiz-explain ${saved && saved.answered ? "show" : ""}" id="explain-${q.id}">
+          <strong>詳解：</strong>${q.explanation}
+        </div>
+      </div>
+    `;
+  }
+
+  function attachQuizHandlers(q) {
+    const container = document.querySelector(`.quiz-options[data-qid="${q.id}"]`);
+    if (!container) return;
+    if (progress[q.id] && progress[q.id].answered) return; // already answered, locked
+
+    container.querySelectorAll(".quiz-option").forEach((optEl) => {
+      optEl.addEventListener("click", () => {
+        const idx = parseInt(optEl.dataset.idx, 10);
+        const correct = idx === q.answerIndex;
+        progress[q.id] = { answered: true, correct, selected: idx };
+        saveProgress(progress);
+
+        container.querySelectorAll(".quiz-option").forEach((el) => {
+          const elIdx = parseInt(el.dataset.idx, 10);
+          if (elIdx === q.answerIndex) el.classList.add("correct");
+          else if (elIdx === idx) el.classList.add("incorrect");
+        });
+        document.getElementById(`explain-${q.id}`).classList.add("show");
+        renderStats();
+      });
+    });
+  }
+
+  function renderWrongbook() {
+    const list = document.getElementById("wrongbook-list");
+    const wrongQs = QUESTIONS.filter((q) => progress[q.id] && progress[q.id].answered && !progress[q.id].correct);
+    if (wrongQs.length === 0) {
+      list.innerHTML = `<div class="empty-state">目前沒有錯題，繼續保持！或前往「分級練習」開始作答。</div>`;
+      return;
+    }
+    // 依觀念分組，提供觀念盲點分析
+    const byTopic = {};
+    wrongQs.forEach((q) => {
+      byTopic[q.topicId] = byTopic[q.topicId] || [];
+      byTopic[q.topicId].push(q);
+    });
+
+    let html = `<p style="color:var(--color-text-muted);margin-bottom:16px;">系統依錯題自動歸納出你的觀念盲點，建議優先複習以下主題：</p>`;
+    html += `<div class="card-grid" style="margin-bottom:28px;">`;
+    Object.entries(byTopic).forEach(([topicId, qs]) => {
+      const title = findTopicTitle(topicId) || topicId;
+      html += `
+        <div class="card">
+          <div class="card-icon" style="background:#fee2e2;color:#b91c1c;">⚠️</div>
+          <h3>${title}</h3>
+          <p>錯題數：${qs.length} 題</p>
+          <a class="card-link" href="roadmap.html#${topicId}">回到觀念小卡複習 →</a>
+        </div>
+      `;
+    });
+    html += `</div>`;
+    html += `<h3 style="margin-bottom:14px;">錯題重新演練</h3>`;
+    html += wrongQs.map((q) => wrongCardHTML(q)).join("");
+    list.innerHTML = html;
+
+    wrongQs.forEach((q) => attachRetryHandlers(q));
+  }
+
+  function wrongCardHTML(q) {
+    return `
+      <div class="quiz-card" id="wrong-${q.id}">
+        <div class="quiz-meta">
+          <span class="chip diff-${q.difficulty}">${q.difficulty}</span>
+          <span class="chip">${q.unitTitle}</span>
+        </div>
+        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-options" data-qid="retry-${q.id}">
+          ${q.options
+            .map((opt, idx) => `<div class="quiz-option" data-idx="${idx}">${String.fromCharCode(65 + idx)}. ${opt}</div>`)
+            .join("")}
+        </div>
+        <div class="quiz-explain" id="retry-explain-${q.id}"><strong>詳解：</strong>${q.explanation}</div>
+      </div>
+    `;
+  }
+
+  function attachRetryHandlers(q) {
+    const container = document.querySelector(`.quiz-options[data-qid="retry-${q.id}"]`);
+    if (!container) return;
+    container.querySelectorAll(".quiz-option").forEach((optEl) => {
+      optEl.addEventListener("click", () => {
+        const idx = parseInt(optEl.dataset.idx, 10);
+        const correct = idx === q.answerIndex;
+        container.querySelectorAll(".quiz-option").forEach((el) => {
+          const elIdx = parseInt(el.dataset.idx, 10);
+          if (elIdx === q.answerIndex) el.classList.add("correct");
+          else if (elIdx === idx) el.classList.add("incorrect");
+        });
+        document.getElementById(`retry-explain-${q.id}`).classList.add("show");
+        if (correct) {
+          progress[q.id] = { answered: true, correct: true, selected: idx };
+          saveProgress(progress);
+          renderStats();
+        }
+      });
+    });
+  }
+
+  function switchMode(mode) {
+    state.mode = mode;
+    document.querySelectorAll("#mode-tabs .tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+    document.getElementById("practice-panel").style.display = mode === "practice" ? "block" : "none";
+    document.getElementById("wrongbook-panel").style.display = mode === "wrongbook" ? "block" : "none";
+    if (mode === "wrongbook") renderWrongbook();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    populateSubjectFilter();
+    renderStats();
+    renderQuizList();
+
+    document.querySelectorAll("#mode-tabs .tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => switchMode(btn.dataset.mode));
+    });
+
+    subjectSelect.addEventListener("change", () => {
+      state.subject = subjectSelect.value;
+      renderQuizList();
+    });
+    difficultySelect.addEventListener("change", () => {
+      state.difficulty = difficultySelect.value;
+      renderQuizList();
+    });
+    searchInput.addEventListener("input", () => {
+      state.search = searchInput.value.trim();
+      renderQuizList();
+    });
+    document.getElementById("reset-quiz").addEventListener("click", () => {
+      if (confirm("確定要清除所有作答紀錄與錯題本嗎？此操作無法復原。")) {
+        progress = {};
+        saveProgress(progress);
+        renderStats();
+        renderQuizList();
+      }
+    });
+  });
+})();

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>互動實驗室 | ChemPlatform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+<script src="../vendor/3Dmol-min.js"></script>
+</head>
+<body>
+<script>window.CHEM_ROOT = "../"; window.CHEM_PAGE = "lab";</script>
+
+<header id="site-header"></header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">首頁</a> / 互動實驗室</div>
+    <h1>🧪 多媒體與互動實驗室</h1>
+    <p>透過可旋轉的 3D 分子模型與即時運算模擬器，將抽象的化學觀念轉換成可操作、可觀察的視覺經驗。</p>
+  </div>
+</div>
+
+<main class="container section">
+
+  <!-- 3D 分子模型 -->
+  <div class="lab-panel">
+    <h2>3D 分子結構模型庫</h2>
+    <p class="lab-desc">拖曳滑鼠旋轉、滾輪縮放，直觀理解分子的空間幾何形狀與極性。座標依鍵長鍵角理想化計算生成。</p>
+    <div class="lab-grid">
+      <div>
+        <div class="control-group">
+          <label for="mol-select">選擇分子</label>
+          <select id="mol-select"></select>
+        </div>
+        <div class="control-group">
+          <label>顯示樣式</label>
+          <select id="style-select">
+            <option value="stick">棒狀 (Stick)</option>
+            <option value="sphere" selected>球棒 (Ball &amp; Stick)</option>
+            <option value="spacefill">空間填充 (Space-filling)</option>
+          </select>
+        </div>
+        <div id="mol-info" style="margin-top:18px;padding:14px;background:var(--color-surface-alt);border-radius:var(--radius-sm);font-size:0.85rem;">
+          <div id="mol-shape" style="font-weight:700;color:var(--color-primary);margin-bottom:6px;"></div>
+          <div id="mol-note" style="color:var(--color-text-muted);"></div>
+        </div>
+      </div>
+      <div>
+        <div id="molviewer"></div>
+        <div class="mol-legend" id="mol-legend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 酸鹼滴定曲線模擬器 -->
+  <div class="lab-panel">
+    <h2>酸鹼滴定曲線模擬器</h2>
+    <p class="lab-desc">調整酸鹼濃度與體積，即時觀察 pH 值隨滴定劑體積變化的曲線，理解當量點與緩衝區域的意義。</p>
+    <div class="lab-grid">
+      <div>
+        <div class="control-group">
+          <label>被滴定物</label>
+          <select id="titr-acid-type">
+            <option value="strong">強酸 (HCl)</option>
+            <option value="weak">弱酸 (CH₃COOH, Ka=1.8×10⁻⁵)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>酸濃度 (M)：<span id="titr-cacid-val" class="value-readout"></span></label>
+          <input type="range" id="titr-cacid" min="0.01" max="0.5" step="0.01" value="0.1" />
+        </div>
+        <div class="control-group">
+          <label>酸體積 (mL)：<span id="titr-vacid-val" class="value-readout"></span></label>
+          <input type="range" id="titr-vacid" min="10" max="100" step="5" value="50" />
+        </div>
+        <div class="control-group">
+          <label>滴定劑：強鹼 NaOH 濃度 (M)：<span id="titr-cbase-val" class="value-readout"></span></label>
+          <input type="range" id="titr-cbase" min="0.01" max="0.5" step="0.01" value="0.1" />
+        </div>
+        <div id="titr-summary" style="font-size:0.85rem;color:var(--color-text-muted);margin-top:10px;"></div>
+      </div>
+      <div>
+        <canvas id="titr-canvas" class="sim-canvas" width="640" height="380"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 氣體分子運動模擬器 -->
+  <div class="lab-panel">
+    <h2>氣體分子運動模擬器</h2>
+    <p class="lab-desc">觀察溫度與體積如何影響氣體分子的運動速率與壓力，直觀理解理想氣體方程式 PV = nRT。</p>
+    <div class="lab-grid">
+      <div>
+        <div class="control-group">
+          <label>溫度 T (K)：<span id="gas-temp-val" class="value-readout"></span></label>
+          <input type="range" id="gas-temp" min="100" max="800" step="10" value="300" />
+        </div>
+        <div class="control-group">
+          <label>容器體積 (相對大小)：<span id="gas-vol-val" class="value-readout"></span></label>
+          <input type="range" id="gas-vol" min="40" max="100" step="1" value="70" />
+        </div>
+        <div class="control-group">
+          <label>分子莫耳數 n (mol)：<span id="gas-n-val" class="value-readout"></span></label>
+          <input type="range" id="gas-n" min="1" max="5" step="1" value="2" />
+        </div>
+        <div id="gas-readout" style="font-size:0.85rem;color:var(--color-text-muted);margin-top:10px;"></div>
+      </div>
+      <div>
+        <canvas id="gas-canvas" class="sim-canvas" width="640" height="380"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 化學平衡模擬器 -->
+  <div class="lab-panel">
+    <h2>化學平衡動態模擬器</h2>
+    <p class="lab-desc">以 N₂O₄(g) ⇌ 2NO₂(g)（K = 4.63，25°C）為例，調整初始條件觀察系統如何達到新平衡，體會勒沙特列原理。</p>
+    <div class="lab-grid">
+      <div>
+        <div class="control-group">
+          <label>N₂O₄ 初始濃度 (M)：<span id="eq-a0-val" class="value-readout"></span></label>
+          <input type="range" id="eq-a0" min="0.1" max="2" step="0.05" value="1.0" />
+        </div>
+        <div class="control-group">
+          <label>NO₂ 初始濃度 (M)：<span id="eq-b0-val" class="value-readout"></span></label>
+          <input type="range" id="eq-b0" min="0" max="2" step="0.05" value="0" />
+        </div>
+        <button class="btn btn-primary btn-sm" id="eq-solve">計算平衡濃度</button>
+        <div id="eq-readout" style="font-size:0.85rem;color:var(--color-text-muted);margin-top:14px;"></div>
+      </div>
+      <div>
+        <canvas id="eq-canvas" class="sim-canvas" width="640" height="380"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 實驗影片與操作規範 -->
+  <div class="lab-panel">
+    <h2>實驗影片與操作規範（範例清單）</h2>
+    <p class="lab-desc">以下為高中必做實驗項目與重點提醒，教師可依課程進度補充實際操作影片連結。</p>
+    <div class="card-grid" id="experiments-grid"></div>
+  </div>
+
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../js/molecules-data.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/lab.js"></script>
+</body>
+</html>

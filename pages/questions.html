@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>題庫與智能評量 | ChemPlatform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<script>window.CHEM_ROOT = "../"; window.CHEM_PAGE = "questions";</script>
+
+<header id="site-header"></header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">首頁</a> / 題庫與智能評量</div>
+    <h1>📝 題庫與智能評量區</h1>
+    <p>依難度分為「基礎概念」、「進階推論」與「跨科素養題」，每題附詳細解析並連結對應學習地圖觀念。答錯的題目會自動存入你的智慧錯題本。</p>
+  </div>
+</div>
+
+<main class="container section">
+  <div class="stat-bar" id="stat-bar"></div>
+
+  <div class="tab-bar" id="mode-tabs">
+    <button class="tab-btn active" data-mode="practice">📚 分級練習</button>
+    <button class="tab-btn" data-mode="wrongbook">🧠 智慧錯題本</button>
+  </div>
+
+  <div id="practice-panel">
+    <div class="filter-bar">
+      <select id="filter-subject"></select>
+      <select id="filter-difficulty">
+        <option value="all">全部難度</option>
+        <option value="基礎">基礎概念</option>
+        <option value="進階">進階推論</option>
+        <option value="素養">跨科素養題</option>
+      </select>
+      <input type="text" id="filter-search" placeholder="🔍 搜尋題目關鍵字..." />
+      <button class="btn btn-outline btn-sm" id="reset-quiz">重新作答</button>
+    </div>
+    <div id="quiz-list"></div>
+  </div>
+
+  <div id="wrongbook-panel" style="display:none;">
+    <div id="wrongbook-list"></div>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../js/curriculum-data.js"></script>
+<script src="../js/questions-data.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/questions.js"></script>
+</body>
+</html>

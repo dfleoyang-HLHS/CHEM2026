@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>探究實作與學習歷程 | ChemPlatform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<script>window.CHEM_ROOT = "../"; window.CHEM_PAGE = "portfolio";</script>
+
+<header id="site-header"></header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">首頁</a> / 探究實作與學習歷程</div>
+    <h1>📁 探究實作與學習歷程檔案</h1>
+    <p>提供小論文與科展的實作指引、數據處理教學，並可直接在下方表單建立報告，一鍵匯出符合學習歷程檔案格式的內容。</p>
+  </div>
+</div>
+
+<main class="container section">
+
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">實作指引</span>
+      <h2>探究與實作的五個關鍵步驟</h2>
+    </div>
+  </div>
+  <div class="card-grid" style="margin-bottom:48px;">
+    <div class="card">
+      <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">❓</div>
+      <h3>1. 提出研究問題</h3>
+      <p>從課堂觀念或生活現象出發，聚焦一個「可被實驗驗證」的具體問題，避免範圍過大。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#ede9fe;color:#6d28d9;">🧭</div>
+      <h3>2. 文獻回顧與假說</h3>
+      <p>查閱相關文獻，提出可驗證的假說，並說明預期的變因關係。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fef3c7;color:#b45309;">🧪</div>
+      <h3>3. 實驗設計</h3>
+      <p>明確界定操縱變因、應變變因與控制變因，規劃可重複驗證的實驗流程。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#dcfce7;color:#15803d;">📊</div>
+      <h3>4. 數據處理與分析</h3>
+      <p>使用 Excel 或試算表整理數據、繪製圖表，並進行誤差來源分析與討論。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fce7f3;color:#be185d;">📝</div>
+      <h3>5. 結論與報告撰寫</h3>
+      <p>呼應研究問題與假說，說明結論的限制與未來可延伸的研究方向。</p>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">數據處理教學</span>
+      <h2>Excel 繪圖與誤差分析要點</h2>
+    </div>
+  </div>
+  <div class="card-grid" style="margin-bottom:48px;">
+    <div class="card">
+      <h3>散布圖與趨勢線</h3>
+      <p>將操縱變因置於 X 軸、應變變因置於 Y 軸，插入散布圖並加上趨勢線與 R² 判定係數，評估變因間的相關程度。</p>
+    </div>
+    <div class="card">
+      <h3>誤差線（Error Bars）</h3>
+      <p>以重複實驗的標準差作為誤差線，呈現數據的離散程度，是判斷結果可信度的重要依據。</p>
+    </div>
+    <div class="card">
+      <h3>系統誤差 vs 隨機誤差</h3>
+      <p>系統誤差（如儀器校正不準）具方向性、可透過校正排除；隨機誤差則透過重複測量取平均與統計方法降低影響。</p>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">學習歷程檔案生成器</span>
+      <h2>建立探究與實作報告</h2>
+      <p>填寫下方欄位，即時預覽報告格式，並可直接使用瀏覽器列印功能匯出為 PDF，作為學習歷程檔案的附件。</p>
+    </div>
+  </div>
+
+  <div class="lab-panel">
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="pf-title">研究題目</label>
+        <input type="text" id="pf-title" placeholder="例如：不同溫度對酵母發酵產氣速率的影響" />
+      </div>
+      <div class="form-field">
+        <label for="pf-author">姓名 / 班級 / 學號</label>
+        <input type="text" id="pf-author" placeholder="例如：王小明 高二忠班 12345" />
+      </div>
+      <div class="form-field">
+        <label for="pf-motivation">研究動機</label>
+        <textarea id="pf-motivation" placeholder="說明選擇此研究主題的原因與背景..."></textarea>
+      </div>
+      <div class="form-field">
+        <label for="pf-question">研究問題與假說</label>
+        <textarea id="pf-question" placeholder="說明具體研究問題，以及可驗證的假說..."></textarea>
+      </div>
+      <div class="form-field">
+        <label for="pf-variables">實驗變因設計</label>
+        <textarea id="pf-variables" placeholder="操縱變因： / 應變變因： / 控制變因："></textarea>
+        <div class="hint">建議分別列出操縱變因、應變變因與控制變因。</div>
+      </div>
+      <div class="form-field">
+        <label for="pf-method">實驗流程與方法</label>
+        <textarea id="pf-method" placeholder="條列實驗步驟..."></textarea>
+      </div>
+      <div class="form-field">
+        <label for="pf-result">結果與數據分析</label>
+        <textarea id="pf-result" placeholder="描述觀察結果、數據趨勢與圖表說明..."></textarea>
+      </div>
+      <div class="form-field">
+        <label for="pf-conclusion">結論與反思</label>
+        <textarea id="pf-conclusion" placeholder="呼應研究問題，說明結論、限制與未來延伸方向..."></textarea>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-primary" id="pf-generate">產生報告預覽</button>
+        <button class="btn btn-outline" id="pf-print">列印 / 匯出 PDF</button>
+      </div>
+    </div>
+
+    <div class="report-preview" id="pf-preview" style="display:none;"></div>
+  </div>
+
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../js/nav.js"></script>
+<script src="../js/portfolio.js"></script>
+</body>
+</html>
