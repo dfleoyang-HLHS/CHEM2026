@@ -144,7 +144,7 @@
           ${topicTitle ? `<a href="roadmap.html#${q.topicId}" class="chip" style="text-decoration:none;">🔗 ${topicTitle}</a>` : ""}
         </div>
         ${q.simulated ? `<div class="sim-note">依近年學測／分科測驗命題趨勢原創設計之模擬題，並非正式歷屆試題逐字內容。</div>` : ""}
-        ${q.examSource ? `<div class="sim-note">依使用者提供之官方試題 PDF 逐字轉錄；答案由 AI 依化學原理推導驗證，非直接取自大考中心公告答案，建議仍以官方公告為準。</div>` : ""}
+        ${q.examSource ? `<div class="sim-note">依官方試題 PDF 逐字轉錄；答案已對照大考中心公告之「115學年度學科能力測驗自然考科選擇題參考答案」確認無誤。</div>` : ""}
         <div class="quiz-question">${nl2br(q.question)}</div>
         <div class="quiz-options" data-qid="${q.id}">
           ${optionsHTML(q, q.id, saved)}
