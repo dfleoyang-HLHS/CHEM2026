@@ -472,7 +472,11 @@ canvas.sim-canvas { width: 100%; background: var(--color-surface-alt); border-ra
 }
 .quiz-meta { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
 .chip-sim { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; }
-@media (prefers-color-scheme: dark) { .chip-sim { background: #2e1a63; color: #c4b5fd; border-color: #4c1d95; } }
+.chip-real { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
+@media (prefers-color-scheme: dark) {
+  .chip-sim { background: #2e1a63; color: #c4b5fd; border-color: #4c1d95; }
+  .chip-real { background: #172554; color: #93c5fd; border-color: #1e3a8a; }
+}
 .sim-note { font-size: 0.78rem; color: var(--color-text-muted); font-style: italic; margin-bottom: 10px; }
 .quiz-question { font-size: 1rem; font-weight: 700; margin-bottom: 14px; }
 .quiz-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
