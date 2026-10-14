@@ -20,13 +20,19 @@
   const state = {
     subject: "all",
     difficulty: "all",
+    type: "all",
     search: "",
     mode: "practice",
   };
 
   const subjectSelect = document.getElementById("filter-subject");
   const difficultySelect = document.getElementById("filter-difficulty");
+  const typeSelect = document.getElementById("filter-type");
   const searchInput = document.getElementById("filter-search");
+
+  function nl2br(str) {
+    return str.replace(/\n/g, "<br/>");
+  }
 
   function populateSubjectFilter() {
     const opts = ['<option value="all">全部單元</option>'];
@@ -51,6 +57,8 @@
       if (topicFilter && q.topicId !== topicFilter) return false;
       if (state.subject !== "all" && q.subjectKey !== state.subject) return false;
       if (state.difficulty !== "all" && q.difficulty !== state.difficulty) return false;
+      if (state.type === "simulated" && !q.simulated) return false;
+      if (state.type === "regular" && q.simulated) return false;
       if (state.search) {
         const hay = (q.question + " " + q.options.join(" ")).toLowerCase();
         if (!hay.includes(state.search.toLowerCase())) return false;
@@ -61,6 +69,7 @@
 
   function renderStats() {
     const total = QUESTIONS.length;
+    const simulatedCount = QUESTIONS.filter((q) => q.simulated).length;
     const answeredIds = Object.keys(progress).filter((id) => progress[id].answered);
     const correctIds = answeredIds.filter((id) => progress[id].correct);
     const wrongIds = answeredIds.filter((id) => !progress[id].correct);
@@ -68,6 +77,7 @@
 
     document.getElementById("stat-bar").innerHTML = `
       <div class="stat-box"><strong>${total}</strong><span>題庫總題數</span></div>
+      <div class="stat-box"><strong>${simulatedCount}</strong><span>仿真模擬題（近年命題趨勢）</span></div>
       <div class="stat-box"><strong>${answeredIds.length}</strong><span>已作答題數</span></div>
       <div class="stat-box"><strong>${accuracy}%</strong><span>目前正確率</span></div>
       <div class="stat-box"><strong>${wrongIds.length}</strong><span>錯題本題數</span></div>
@@ -93,9 +103,11 @@
         <div class="quiz-meta">
           <span class="chip diff-${q.difficulty}">${q.difficulty}</span>
           <span class="chip">${q.unitTitle}</span>
+          ${q.simulated ? `<span class="chip chip-sim">🧭 仿真模擬題</span>` : ""}
           ${topicTitle ? `<a href="roadmap.html#${q.topicId}" class="chip" style="text-decoration:none;">🔗 ${topicTitle}</a>` : ""}
         </div>
-        <div class="quiz-question">${q.question}</div>
+        ${q.simulated ? `<div class="sim-note">依近年學測／分科測驗命題趨勢原創設計之模擬題，並非正式歷屆試題逐字內容。</div>` : ""}
+        <div class="quiz-question">${nl2br(q.question)}</div>
         <div class="quiz-options" data-qid="${q.id}">
           ${q.options
             .map(
@@ -178,8 +190,9 @@
         <div class="quiz-meta">
           <span class="chip diff-${q.difficulty}">${q.difficulty}</span>
           <span class="chip">${q.unitTitle}</span>
+          ${q.simulated ? `<span class="chip chip-sim">🧭 仿真模擬題</span>` : ""}
         </div>
-        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-question">${nl2br(q.question)}</div>
         <div class="quiz-options" data-qid="retry-${q.id}">
           ${q.options
             .map((opt, idx) => `<div class="quiz-option" data-idx="${idx}">${String.fromCharCode(65 + idx)}. ${opt}</div>`)
@@ -235,6 +248,10 @@
     });
     difficultySelect.addEventListener("change", () => {
       state.difficulty = difficultySelect.value;
+      renderQuizList();
+    });
+    typeSelect.addEventListener("change", () => {
+      state.type = typeSelect.value;
       renderQuizList();
     });
     searchInput.addEventListener("input", () => {
