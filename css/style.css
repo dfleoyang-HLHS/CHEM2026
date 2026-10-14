@@ -588,6 +588,53 @@ canvas.sim-canvas { width: 100%; background: var(--color-surface-alt); border-ra
 }
 @media (prefers-color-scheme: dark) { .tag-pill { color: var(--color-primary-light); } }
 
+/* ---------- Progress dashboard (homepage) ---------- */
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+.progress-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.progress-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.progress-card-head .card-icon { margin-bottom: 0; flex-shrink: 0; }
+.status-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.progress-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 560px) {
+  .progress-card-body { grid-template-columns: 1fr; }
+}
+.progress-col-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.progress-col-label.done-label { color: var(--color-success); }
+.progress-col-label.todo-label { color: var(--color-text-muted); }
+.progress-col .key-points { font-size: 0.82rem; padding-left: 18px; margin: 0; }
+.progress-col .key-points li { margin-bottom: 4px; }
+
 /* ---------- Footer ---------- */
 #site-footer {
   border-top: 1px solid var(--color-border);

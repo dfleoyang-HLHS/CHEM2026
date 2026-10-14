@@ -15,20 +15,16 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <span class="hero-eyebrow">依 108 課綱設計．必修化學＋選修化學 I–V</span>
-    <h1>聽懂觀念 → 視覺理解 → 實作演練 → 歷程積累</h1>
-    <p class="lead">ChemPlatform 是專為台灣高中生打造的化學學習平台，整合課綱知識地圖、3D分子模型、互動模擬實驗、分級題庫與智慧錯題本，陪你把化學觀念學得又深又穩。</p>
-
-    <form class="hero-search" id="hero-search-form">
-      <input type="text" id="hero-search-input" placeholder="輸入關鍵字，例如「勒沙特列」、「軌域」、「pH」..." autocomplete="off" />
-      <button type="submit">搜尋觀念</button>
-    </form>
+    <span class="hero-eyebrow">🚧 專案開發進度儀表板．最後更新 2026/10/14</span>
+    <h1>ChemPlatform 目前建置進度</h1>
+    <p class="lead">這裡即時呈現五大功能模組目前的完成狀態，方便老師與同學掌握專案進展。網站已可正常操作，以下列出各模組已完成與仍在規劃中的項目。</p>
 
     <div class="hero-stats">
-      <div class="hero-stat"><strong>8</strong><span>必修＋選修化學模組</span></div>
-      <div class="hero-stat"><strong>23</strong><span>觀念主題完整收錄</span></div>
-      <div class="hero-stat"><strong>32+</strong><span>分級練習題目</span></div>
-      <div class="hero-stat"><strong>10</strong><span>可互動旋轉的3D分子</span></div>
+      <div class="hero-stat"><strong>5 / 5</strong><span>功能模組已上線可操作</span></div>
+      <div class="hero-stat"><strong>23</strong><span>觀念主題已收錄</span></div>
+      <div class="hero-stat"><strong>32+</strong><span>題庫題目已建置</span></div>
+      <div class="hero-stat"><strong>10</strong><span>3D分子模型已建置</span></div>
+      <div class="hero-stat"><strong>3</strong><span>互動模擬器已建置</span></div>
     </div>
   </div>
 </section>
@@ -37,47 +33,37 @@
   <section class="section container">
     <div class="section-head">
       <div>
-        <span class="eyebrow">五大功能模組</span>
-        <h2>一站式化學學習閉環</h2>
-        <p>從觀念地圖出發，透過視覺化工具建立空間想像，再以題庫演練檢驗理解，最後把探究成果整理進學習歷程檔案。</p>
+        <span class="eyebrow">模組進度總覽</span>
+        <h2>五大功能模組建置狀態</h2>
+        <p>每個模組皆已可實際操作，以下列出目前已完成的功能，以及規劃中尚待補強的項目。</p>
+      </div>
+    </div>
+
+    <div class="progress-grid" id="progress-grid"></div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">已建置技術亮點</span>
+        <h2>目前採用的技術方案</h2>
       </div>
     </div>
     <div class="card-grid">
-      <a class="card module-card" href="pages/roadmap.html">
-        <div class="card-icon" style="background:#ccfbf1;color:#0f766e;">🗺️</div>
-        <h3>1. 學習地圖區</h3>
-        <p>必修化學＋選修化學 I–V 完整觀念圖譜，關鍵字檢索快速跳轉單元與題庫。</p>
-        <span class="card-link">前往學習地圖 →</span>
-      </a>
-      <a class="card module-card" href="pages/lab.html">
-        <div class="card-icon" style="background:#e0e7ff;color:#4338ca;">🧪</div>
-        <h3>2. 多媒體與互動實驗室</h3>
-        <p>3D分子結構模型、酸鹼滴定曲線模擬、氣體分子運動、化學平衡動態移動。</p>
-        <span class="card-link">進入互動實驗室 →</span>
-      </a>
-      <a class="card module-card" href="pages/questions.html">
-        <div class="card-icon" style="background:#fef3c7;color:#b45309;">📝</div>
-        <h3>3. 題庫與智能評量區</h3>
-        <p>基礎／進階／素養三級分類題目，附詳解與觀念連結，自動歸納智慧錯題本。</p>
-        <span class="card-link">開始刷題 →</span>
-      </a>
-      <a class="card module-card" href="pages/portfolio.html">
-        <div class="card-icon" style="background:#fce7f3;color:#be185d;">📁</div>
-        <h3>4. 探究實作與學習歷程</h3>
-        <p>小論文與科展指引、數據處理教學，一鍵生成符合學習歷程檔案格式的報告。</p>
-        <span class="card-link">建立學習歷程 →</span>
-      </a>
-      <a class="card module-card" href="pages/community.html">
-        <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🤖</div>
-        <h3>5. AI 家教與社群問答</h3>
-        <p>AI 化學解題助手引導思考、師生討論區與許願池，隨時獲得協助。</p>
-        <span class="card-link">問問 AI 助教 →</span>
-      </a>
-      <div class="card" style="background:linear-gradient(135deg,var(--color-primary),var(--color-accent-2)); color:#fff; border:none;">
-        <div class="card-icon" style="background:rgba(255,255,255,0.2);color:#fff;">🎯</div>
-        <h3>不知從何開始？</h3>
-        <p style="color:rgba(255,255,255,0.9)">先做個 5 題的必修化學暖身測驗，快速定位你目前的觀念強弱點。</p>
-        <a class="btn btn-primary" style="background:#fff;color:var(--color-primary-dark);" href="pages/questions.html">立即測驗 →</a>
+      <div class="card">
+        <div class="card-icon" style="background:#e0e7ff;color:#4338ca;">🧬</div>
+        <h3>3D 分子渲染</h3>
+        <p>採用 3Dmol.js（已改為本地 vendor，避免校園網路封鎖 CDN），分子座標依實際鍵長鍵角理想化計算生成。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#dcfce7;color:#15803d;">💾</div>
+        <h3>本機資料儲存</h3>
+        <p>作答紀錄、錯題本、討論區貼文皆以 localStorage 儲存於使用者瀏覽器，無需後端伺服器即可運作。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fef3c7;color:#b45309;">⚙️</div>
+        <h3>純前端靜態架構</h3>
+        <p>純 HTML／CSS／Vanilla JavaScript，無建置流程，可直接部署於 GitHub Pages 或任何靜態主機。</p>
       </div>
     </div>
   </section>
@@ -85,36 +71,26 @@
   <section class="section container">
     <div class="section-head">
       <div>
-        <span class="eyebrow">課程架構</span>
-        <h2>必修化學 ＋ 選修化學 I – V</h2>
-        <p>完整對應 108 課綱高中化學課程架構，點選卡片可直接前往該模組的學習地圖。</p>
-      </div>
-    </div>
-    <div class="card-grid" id="subject-overview-grid"></div>
-  </section>
-
-  <section class="section container">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">為什麼選擇 ChemPlatform</span>
-        <h2>兼顧觀念、計算與素養的學習設計</h2>
+        <span class="eyebrow">下一步規劃</span>
+        <h2>待開發項目清單</h2>
       </div>
     </div>
     <div class="card-grid">
       <div class="card">
-        <div class="card-icon" style="background:#ecfccb;color:#4d7c0f;">🔍</div>
-        <h3>觀念圖譜化</h3>
-        <p>每個單元拆解為可獨立閱讀的觀念小卡，附重點條列，方便考前快速複習。</p>
+        <h3>📚 歷屆考古題收錄</h3>
+        <p>加入歷屆學測／分科測驗化學科考古題至題庫，並標註年度與對應觀念單元。</p>
       </div>
       <div class="card">
-        <div class="card-icon" style="background:#fee2e2;color:#b91c1c;">🧮</div>
-        <h3>計算即時驗算</h3>
-        <p>滴定曲線、氣體定律等模擬器可即時代入數值運算，建立公式與圖形的直覺連結。</p>
+        <h3>🤖 串接真實 AI 模型</h3>
+        <p>將 AI 家教從關鍵字比對示範版，升級為串接大型語言模型 API，並支援拍照辨識題目。</p>
       </div>
       <div class="card">
-        <div class="card-icon" style="background:#e0f2fe;color:#0369a1;">📊</div>
-        <h3>錯題自動追蹤</h3>
-        <p>答錯的題目自動存入你的錯題本（儲存於本機瀏覽器），並標註對應觀念方便複習。</p>
+        <h3>👤 帳號與跨裝置同步</h3>
+        <p>建立使用者帳號系統，讓作答紀錄、錯題本與學習歷程可跨裝置同步，而非僅存於單一瀏覽器。</p>
+      </div>
+      <div class="card">
+        <h3>🎬 實驗影片素材</h3>
+        <p>為互動實驗室的安全提醒卡補上實際拍攝的操作示範影片連結。</p>
       </div>
     </div>
   </section>
@@ -125,28 +101,112 @@
 <script src="js/curriculum-data.js"></script>
 <script src="js/nav.js"></script>
 <script>
-  const grid = document.getElementById("subject-overview-grid");
-  const order = ["required", "elective1", "elective2", "elective3", "elective4", "elective5"];
-  order.forEach((key) => {
-    const s = CURRICULUM[key];
-    if (!s) return;
-    const topicCount = s.units.reduce((n, u) => n + u.topics.length, 0);
-    const card = document.createElement("a");
-    card.className = "card module-card";
-    card.href = `pages/roadmap.html?subject=${s.key}`;
-    card.innerHTML = `
-      <div class="card-icon" style="background:${s.color}22;color:${s.color};">⚛️</div>
-      <h3>${s.title}</h3>
-      <p>${s.subtitle}．共 ${s.units.length} 單元／${topicCount} 觀念主題</p>
-      <span class="card-link">查看課程內容 →</span>
-    `;
-    grid.appendChild(card);
-  });
+  const PROGRESS = [
+    {
+      title: "1. 學習地圖區",
+      href: "pages/roadmap.html",
+      icon: "🗺️",
+      color: "#0f766e",
+      status: "done",
+      statusLabel: "已完成",
+      done: [
+        "必修化學 3 單元 + 選修化學 I–V，共 23 個觀念主題全數收錄",
+        "每個主題附完整重點條列、關鍵字標籤",
+        "支援關鍵字搜尋、單元分頁篩選、手風琴展開",
+      ],
+      todo: ["尚未加入輔助教學影片／圖片", "尚未支援依難度篩選觀念"],
+    },
+    {
+      title: "2. 多媒體與互動實驗室",
+      href: "pages/lab.html",
+      icon: "🧪",
+      color: "#4338ca",
+      status: "done",
+      statusLabel: "核心功能已完成",
+      done: [
+        "10 種可旋轉／縮放的 3D 分子模型，含形狀與極性說明",
+        "酸鹼滴定曲線模擬器（強酸／弱酸即時運算）",
+        "氣體分子運動模擬器（PV=nRT 即時運算＋動畫）",
+        "化學平衡動態模擬器（ICE 表即時求解）",
+        "6 則實驗室安全提醒卡",
+      ],
+      todo: ["尚未加入真實實驗操作影片連結", "模擬器目前僅各提供一組反應範例"],
+    },
+    {
+      title: "3. 題庫與智能評量區",
+      href: "pages/questions.html",
+      icon: "📝",
+      color: "#b45309",
+      status: "partial",
+      statusLabel: "部分完成",
+      done: [
+        "32 題涵蓋必修＋選修 I–V，分基礎／進階／素養三級",
+        "每題附詳解並連結對應學習地圖觀念",
+        "智慧錯題本自動歸納錯題觀念盲點（本機儲存）",
+      ],
+      todo: ["歷屆學測／分科測驗考古題尚未收錄", "題目數量仍待擴充", "尚無跨裝置同步"],
+    },
+    {
+      title: "4. 探究實作與學習歷程",
+      href: "pages/portfolio.html",
+      icon: "📁",
+      color: "#be185d",
+      status: "partial",
+      statusLabel: "部分完成",
+      done: [
+        "探究與實作五步驟指引",
+        "Excel 數據處理與誤差分析教學重點",
+        "線上報告產生器，可直接列印／匯出 PDF",
+      ],
+      todo: ["尚未支援頁面內直接繪製圖表", "尚未對接正式學習歷程檔案系統格式"],
+    },
+    {
+      title: "5. AI 家教與社群問答",
+      href: "pages/community.html",
+      icon: "🤖",
+      color: "#1d4ed8",
+      status: "partial",
+      statusLabel: "示範版",
+      done: [
+        "關鍵字比對式引導提問 AI 助教（示範版，引導思考而非直接給答案）",
+        "討論區／許願池，可發文與瀏覽（本機示範資料）",
+      ],
+      todo: ["尚未串接真正大型語言模型 API", "尚未支援拍照上傳題目辨識", "尚無真實帳號系統與教師後台"],
+    },
+  ];
 
-  document.getElementById("hero-search-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const q = document.getElementById("hero-search-input").value.trim();
-    window.location.href = "pages/roadmap.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+  const STATUS_META = {
+    done: { label: "已完成", bg: "#dcfce7", fg: "#15803d" },
+    partial: { label: "部分完成", bg: "#fef3c7", fg: "#b45309" },
+    planned: { label: "規劃中", bg: "#f1f5f9", fg: "#64748b" },
+  };
+
+  const grid = document.getElementById("progress-grid");
+  PROGRESS.forEach((m) => {
+    const meta = STATUS_META[m.status];
+    const el = document.createElement("div");
+    el.className = "progress-card";
+    el.innerHTML = `
+      <div class="progress-card-head">
+        <div class="card-icon" style="background:${m.color}22;color:${m.color};">${m.icon}</div>
+        <div style="flex:1;">
+          <h3 style="margin-bottom:4px;">${m.title}</h3>
+          <span class="status-badge" style="background:${meta.bg};color:${meta.fg};">${m.statusLabel}</span>
+        </div>
+      </div>
+      <div class="progress-card-body">
+        <div class="progress-col">
+          <div class="progress-col-label done-label">✅ 已完成</div>
+          <ul class="key-points">${m.done.map((d) => `<li>${d}</li>`).join("")}</ul>
+        </div>
+        <div class="progress-col">
+          <div class="progress-col-label todo-label">🔧 待補強</div>
+          <ul class="key-points">${m.todo.map((d) => `<li>${d}</li>`).join("")}</ul>
+        </div>
+      </div>
+      <a class="btn btn-outline btn-sm" href="${m.href}">前往查看 →</a>
+    `;
+    grid.appendChild(el);
   });
 </script>
 </body>
