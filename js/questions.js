@@ -70,7 +70,7 @@
       if (state.type === "real" && !q.examSource) return false;
       if (state.type === "regular" && (q.simulated || q.examSource)) return false;
       if (state.search) {
-        const hay = (q.question + " " + q.options.join(" ")).toLowerCase();
+        const hay = (q.question + " " + q.options.join(" ") + " " + (q.examSource || "")).toLowerCase();
         if (!hay.includes(state.search.toLowerCase())) return false;
       }
       return true;
