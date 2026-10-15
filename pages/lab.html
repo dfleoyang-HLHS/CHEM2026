@@ -23,8 +23,19 @@
 
 <main class="container section">
 
+  <div class="lab-select-wrap">
+    <label for="lab-panel-select">選擇互動單元</label>
+    <select id="lab-panel-select">
+      <option value="mol">🧬 3D 分子結構模型庫</option>
+      <option value="titration">🧪 酸鹼滴定曲線模擬器</option>
+      <option value="gas">💨 氣體分子運動模擬器</option>
+      <option value="equilibrium">⚖️ 化學平衡動態模擬器</option>
+      <option value="experiments">🎬 實驗影片與操作規範</option>
+    </select>
+  </div>
+
   <!-- 3D 分子模型 -->
-  <div class="lab-panel">
+  <div class="lab-panel active" data-lab-panel="mol">
     <h2>3D 分子結構模型庫</h2>
     <p class="lab-desc">拖曳滑鼠旋轉、滾輪縮放，直觀理解分子的空間幾何形狀與極性。座標依鍵長鍵角理想化計算生成。</p>
     <div class="lab-grid">
@@ -54,7 +65,7 @@
   </div>
 
   <!-- 酸鹼滴定曲線模擬器 -->
-  <div class="lab-panel">
+  <div class="lab-panel" data-lab-panel="titration">
     <h2>酸鹼滴定曲線模擬器</h2>
     <p class="lab-desc">調整酸鹼濃度與體積，即時觀察 pH 值隨滴定劑體積變化的曲線，理解當量點與緩衝區域的意義。</p>
     <div class="lab-grid">
@@ -87,7 +98,7 @@
   </div>
 
   <!-- 氣體分子運動模擬器 -->
-  <div class="lab-panel">
+  <div class="lab-panel" data-lab-panel="gas">
     <h2>氣體分子運動模擬器</h2>
     <p class="lab-desc">觀察溫度與體積如何影響氣體分子的運動速率與壓力，直觀理解理想氣體方程式 PV = nRT。</p>
     <div class="lab-grid">
@@ -113,7 +124,7 @@
   </div>
 
   <!-- 化學平衡模擬器 -->
-  <div class="lab-panel">
+  <div class="lab-panel" data-lab-panel="equilibrium">
     <h2>化學平衡動態模擬器</h2>
     <p class="lab-desc">以 N₂O₄(g) ⇌ 2NO₂(g)（K = 4.63，25°C）為例，調整初始條件觀察系統如何達到新平衡，體會勒沙特列原理。</p>
     <div class="lab-grid">
@@ -136,7 +147,7 @@
   </div>
 
   <!-- 實驗影片與操作規範 -->
-  <div class="lab-panel">
+  <div class="lab-panel" data-lab-panel="experiments">
     <h2>實驗影片與操作規範（範例清單）</h2>
     <p class="lab-desc">以下為高中必做實驗項目與重點提醒，教師可依課程進度補充實際操作影片連結。</p>
     <div class="card-grid" id="experiments-grid"></div>

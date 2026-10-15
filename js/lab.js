@@ -1,11 +1,27 @@
 // 互動實驗室：3D 分子模型 + 滴定曲線 + 氣體模擬 + 化學平衡模擬
 document.addEventListener("DOMContentLoaded", () => {
+  initLabPanelSwitcher();
   initMoleculeViewer();
   initTitrationSimulator();
   initGasSimulator();
   initEquilibriumSimulator();
   initExperimentsGrid();
 });
+
+/* ========== 0. 互動單元下拉選單切換 ========== */
+function initLabPanelSwitcher() {
+  const select = document.getElementById("lab-panel-select");
+  const panels = document.querySelectorAll(".lab-panel[data-lab-panel]");
+
+  function showPanel(key) {
+    panels.forEach((p) => {
+      p.classList.toggle("active", p.dataset.labPanel === key);
+    });
+  }
+
+  select.addEventListener("change", () => showPanel(select.value));
+  showPanel(select.value);
+}
 
 /* ========== 1. 3D 分子模型 ========== */
 function initMoleculeViewer() {

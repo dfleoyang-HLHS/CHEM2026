@@ -425,6 +425,27 @@ section.section {
 .topic-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
 
 /* ---------- Lab / simulators ---------- */
+.lab-select-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.lab-select-wrap label { display: block; font-size: 0.84rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text-muted); }
+.lab-select-wrap select {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
 .lab-panel {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -432,7 +453,9 @@ section.section {
   padding: 24px;
   box-shadow: var(--shadow-sm);
   margin-bottom: 32px;
+  display: none;
 }
+.lab-panel.active { display: block; }
 .lab-panel h2 { font-size: 1.2rem; margin-bottom: 4px; }
 .lab-panel .lab-desc { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 18px; }
 .lab-grid {
